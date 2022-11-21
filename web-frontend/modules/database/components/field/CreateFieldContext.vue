@@ -2,6 +2,7 @@
   <Context ref="context">
     <FieldForm
       ref="form"
+      class="context__form--size-large"
       :table="table"
       :forced-type="forcedType"
       @submitted="submit"
@@ -50,6 +51,17 @@ export default {
       loading: false,
     }
   },
+  mounted() {
+    this.$watch(
+      (vm) => {
+        const { open, openedOnce } = vm.$refs.context
+        return open && openedOnce
+      },
+      (isFormVisible) =>
+        isFormVisible && this.dropdownFocusOnContextOpen.apply(this),
+      { immediate: false }
+    )
+  },
   methods: {
     async submit(values) {
       this.loading = true
@@ -91,6 +103,12 @@ export default {
           notifyIf(error, 'field')
         }
       }
+    },
+    dropdownFocusOnContextOpen() {
+      setTimeout(() => {
+        const dropdownEl = this.$refs.form.$el.querySelector('.dropdown')
+        dropdownEl?.focus?.()
+      }, 0)
     },
   },
 }

@@ -147,6 +147,22 @@
 .context__form {
   min-width: 260px;
   padding: 16px;
+
+  &--size-large {
+    width: 400px;
+    max-width: 80vw;
+
+    .dropdown__items {
+      /*
+        --dropdown-offset-top: distance from top of dropdown to top of viewport,
+        --dropdown-offset-bottom: distance from bottom of dropdown to bottom of viewport
+      */
+      .select__items {
+        height: 500px;
+        max-height: calc(100vh - var(--dropdown-offset-top, 100px) - var(--dropdown-offset-bottom, 100px));
+      }
+    }
+  }
 }
 
 .context__form-actions {
