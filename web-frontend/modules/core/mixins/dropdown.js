@@ -138,6 +138,8 @@ export default {
       this.$emit('show')
 
       this.$nextTick(() => {
+        this.updateOffsetCSSVariable()
+
         // We have to wait for the input to be visible before we can focus.
         this.showSearch && this.$refs.search.focus()
 
@@ -362,6 +364,12 @@ export default {
       // In the case that the next item to scroll to is completely visible we simply
       // return the current scroll position so that no scrolling happens
       return this.$refs.items.scrollTop
+    },
+    updateOffsetCSSVariable() {
+      if (this.$el) {
+        const { top = 100 } = this.$el?.getBoundingClientRect?.() ?? {}
+        this.$el.style.setProperty('--dropdown-offset-top', `${top}px`)
+      }
     },
   },
 }
