@@ -45,9 +45,10 @@
     <div v-if="forcedType === null" class="control">
       <div class="control__elements">
         <Dropdown
+          ref="type"
           v-model="values.type"
           :class="{ 'dropdown--error': $v.values.type.$error }"
-          @hide="$v.values.type.$touch()"
+          @hide="onDropdownClose()"
         >
           <DropdownItem
             v-for="(fieldType, type) in fieldTypes"
@@ -157,6 +158,12 @@ export default {
     },
     getFormComponent(type) {
       return this.$registry.get('field', type).getFormComponent()
+    },
+    onDropdownClose() {
+      this.$v.values.type.$touch()
+      if (this.values.type?.length && !this.values.name?.length) {
+        this.$refs.name.focus()
+      }
     },
   },
 }
